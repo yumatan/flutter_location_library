@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_location_library/location_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -111,6 +112,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const LocationPage(),
+                  ),
+                );
+              },
+              child: const Text('Show location'),
             ),
           ],
         ),
