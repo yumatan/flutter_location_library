@@ -12,10 +12,6 @@ class LocationPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locationData = ref.watch(locationDataProvider);
 
-    Location().onLocationChanged.listen((currentLocation) {
-      ref.read(locationDataProvider.notifier).state = currentLocation;
-    });
-
     useEffect(() {
       LocationPermissionsHandler().isGranted.then((isGranted) {
         if (!isGranted) {
@@ -37,6 +33,18 @@ class LocationPage extends HookConsumerWidget {
             const Text('Location Page'),
             Text(locationData.latitude.toString()),
             Text(locationData.longitude.toString()),
+            FilledButton(
+              onPressed: () async {
+                final locationData = await Location().getLocation();
+                ref.read(locationDataProvider.notifier).state = locationData;
+
+                //     LocationData.fromMap({
+                //   'latitude': 35.0,
+                //   'longitude': 135.0,
+                // });
+              },
+              child: const Text('get location'),
+            ),
           ],
         ),
       ),
