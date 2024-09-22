@@ -10,7 +10,6 @@ class LocationPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final location = Location();
     final locationData = ref.watch(locationDataProvider);
 
     Location().onLocationChanged.listen((currentLocation) {
@@ -18,8 +17,11 @@ class LocationPage extends HookConsumerWidget {
     });
 
     useEffect(() {
-      LocationPermissionsHandler().request();
-      final a = location.getLocation();
+      LocationPermissionsHandler().isGranted.then((isGranted) {
+        if (!isGranted) {
+          LocationPermissionsHandler().request();
+        }
+      });
       return null;
     }, []);
 
